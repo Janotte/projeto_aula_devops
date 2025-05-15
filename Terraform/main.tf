@@ -11,3 +11,12 @@ module "main" {
   project               = var.project
   environment           = var.environment
 }
+
+# Cria o bucket S3 para armazenar os arquivos
+module "upload_bucket" {
+  source      = "./modules/s3"
+  bucket_name = "${var.project}-${var.environment}-bucket.${var.domain}"
+  project     = var.project
+  environment = var.environment
+  domain      = var.domain
+}
