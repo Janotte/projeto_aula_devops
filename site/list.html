@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Listar Arquivos</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+			margin: 0;
+			padding: 0;
+		}
+
+		section {
+			max-width: 90%;
+			margin: 40px auto;
+			padding: 20px;
+		}
+
+		nav {
+			background-color: #616161;
+			padding: 10px 20px;
+			border-radius: 5px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			display: flex;
+			justify-content: space-around;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			color: #f8f8f8;
+			text-decoration: none;
+			margin: 5px;
+			font-weight: bold;
+		}
+
+		main {
+			background-color: #ffffff;
+			margin-top: 20px;
+			padding: 30px 20px;
+			border-radius: 5px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		}
+
+		h1 {
+			font-size: 24px;
+			margin-bottom: 20px;
+			color: #333;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+
+		th,
+		td {
+			padding: 12px 10px;
+			border-bottom: 1px solid #ddd;
+			text-align: left;
+		}
+
+		th {
+			background-color: #f0f0f0;
+			color: #333;
+			font-weight: bold;
+		}
+
+		td a {
+			color: #4CAF50;
+			text-decoration: none;
+			font-weight: bold;
+		}
+
+		td a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<nav>
+			<a href="index.php">Início</a>
+			<a href="s3.php">Enviar para S3</a>
+			<a href="listar.php">Listar Bucket</a>
+		</nav>
+		<main>
+			<h1>
+				Arquivos no bucket:
+				<?= htmlspecialchars($bucketName) ?>
+			</h1>
+
+			<?php if (empty($objects)): ?>
+				<p>Nenhum arquivo encontrado.</p>
+			<?php else: ?>
+				<table>
+					<thead>
+						<tr>
+							<th>Arquivo</th>
+							<th>Última Modificação</th>
+							<th>Tamanho</th>
+							<th>Link</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($objects as $obj): ?>
+							<tr>
+								<td><?= htmlspecialchars($obj['Key']) ?></td>
+								<td><?= $obj['LastModified'] ?></td>
+								<td><?= round($obj['Size'] / 1024, 2) ?> KB</td>
+								<td>
+									<?php
+										$cmd = $s3->getCommand('GetObject', [
+											'Bucket' => $bucketName,
+											'Key' => $obj['Key']
+										]);
+										$request = $s3->createPresignedRequest($cmd, '+10 minutes');
+										$presignedUrl = (string) $request->getUri();
+									?>
+									<a href="<?= htmlspecialchars($presignedUrl) ?>" target="_blank">Abrir</a>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+		</main>
+	</section>
+</body>
+</html>

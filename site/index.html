@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Home</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f4f4f4;
+				margin: 0;
+				padding: 0;
+			}
+
+			section {
+				max-width: 90%;
+				margin: 40px auto;
+				padding: 20px;
+			}
+
+			nav {
+				background-color: #616161;
+				padding: 10px 20px;
+				border-radius: 5px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+				display: flex;
+				justify-content: space-around;
+				flex-wrap: wrap;
+			}
+
+			nav a {
+				color: #f8f8f8;
+				text-decoration: none;
+				margin: 5px;
+				font-weight: bold;
+			}
+
+			main {
+				background-color: #ffffff;
+				margin-top: 20px;
+				padding: 30px 20px;
+				border-radius: 5px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			}
+
+			h1 {
+				font-size: 24px;
+				margin-bottom: 20px;
+				color: #333;
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<nav>
+				<a href="index.php">Início</a>
+				<a href="s3.php">Enviar para S3</a>
+				<a href="listar.php">Listar Bucket</a>
+			</nav>
+			<main>
+				<h1>Bem-vindo ao App para Alunos de DevOps!</h1>
+
+				<p>Este é um aplicativo simples para demonstrar o upload de arquivos para o S3.</p>
+			</main>
+		</section>
+	</body>
+</html>

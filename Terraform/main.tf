@@ -56,6 +56,6 @@ module "ec2" {
   key_name               = module.ec2_key_pair.name
   private_ip             = "10.0.1.200"
   iam_instance_profile   = module.iam.ec2_instance_profile_name
-  project     = var.project
-  environment = var.environment
+  project                = var.project
+  environment            = var.environment
 }
